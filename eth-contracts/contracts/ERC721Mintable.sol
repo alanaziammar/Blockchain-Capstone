@@ -71,7 +71,7 @@ contract Pausable is Ownable {
     /**
      * @dev Modifier to make a function callable only when the contract is paused.
      */
-    modifier paused() {
+    modifier whenPaused() {
         require(_paused, "Pausable: not paused");
         _;
     }
@@ -177,7 +177,7 @@ contract ERC721 is Pausable, ERC165 {
 
     function ownerOf(uint256 tokenId) public view returns (address) {
         // TODO return the owner of the given tokenId
-        return _tokenOwner(tokenId);
+        return _tokenOwner[tokenId];
     }
 
 //    @dev Approves another address to transfer the given token ID
@@ -226,7 +226,6 @@ contract ERC721 is Pausable, ERC165 {
 
     function transferFrom(address from, address to, uint256 tokenId) public {
         require(_isApprovedOrOwner(msg.sender, tokenId));
-
         _transferFrom(from, to, tokenId);
     }
 
